@@ -1,0 +1,28 @@
+const AppError =require('../errors/app-error');
+const {User,UserValidationSchema}=require('./user-mode');
+const { OperationType, checkPayload, hashString } = require('../utils/utils-controller');
+
+const controller = {
+    create: async(payload) => {
+        checkPayload(payload, UserValidationSchema, OperationType.Create);
+        payload.password = await hashString(payload.password);
+        return User.create(payload);
+    },
+    getAll: async() => User.find(),
+
+    getFiltered: async(filter) => User.find(filter),
+
+    getById: async(_id) => {
+        let result = await User.findById(_id);
+        if (!result) throw new AppError(404, `User with _id ${_id} not found`);
+
+        return result;
+    },
+
+    deleteById: async(_id) => {
+        User.deleteOne({ _id });
+        return;
+    },
+}
+
+module.exports=controller;

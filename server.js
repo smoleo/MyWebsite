@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const { errorHandler } = require('./errors/error-handler');
 const dbContext = require('./database/dbContext');
 const pictureRouter = require('./pictures/picture-router');
+const userRouter = require('./user/user-router');
 
 const app = express();
 const port = 1309;
@@ -21,6 +22,7 @@ async function main() {
     app.use(express.text());
 
     app.use('/api/pictures', pictureRouter);
+    app.use('/api/users', userRouter)
     
     app.use(errorHandler);
     
