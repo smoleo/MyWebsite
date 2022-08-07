@@ -1,6 +1,8 @@
 const AppError =require('../errors/app-error');
 const {User,UserValidationSchema}=require('./user-mode');
 const { OperationType, checkPayload, hashString } = require('../utils/utils-controller');
+const bcrypt = require('bcrypt');
+
 
 const controller = {
     create: async(payload) => {
@@ -23,6 +25,19 @@ const controller = {
         User.deleteOne({ _id });
         return;
     },
+    getByCredential: async(credentials) => {
+        console.log(credentials);
+        let user = await User.findOne({ username: credentials.username });
+        if (!await bcrypt.compare(credentials.password, user.password)) {
+            throw new AppError(400, "Wrong credentials");
+        }
+        return user;
+
+    },
+    updateRefreshToken: async(_id, token) => {
+        await User.findByIdAndUpdate(_id, { refreshToken: token });
+        return;
+    }
 }
 
 module.exports=controller;

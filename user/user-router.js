@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { handleAsyncError } = require('../errors/error-handler');
 const { checkId, denyQueryString } = require('../utils/utils-router');
-const controller = require('./message-controller');
+const controller = require('./user-controller');
 
 router.post(
     '/',

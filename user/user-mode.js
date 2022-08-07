@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const mongooseUserSchema = new mongoose.Schema({
     username: {
       type: String,
@@ -15,7 +16,7 @@ const mongooseUserSchema = new mongoose.Schema({
   });
   
   const UserValidationSchema = {
-    title: {
+    username: {
       type: 'string',
       required: true,
       validation: {
@@ -23,7 +24,7 @@ const mongooseUserSchema = new mongoose.Schema({
         msg: 'title must have more than 4 and less than 20 characters.',
       },
     },
-    details: {
+    password: {
       type: 'string',
       required: true,
       validation: {
